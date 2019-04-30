@@ -54,6 +54,7 @@ public class Keyword_CRM extends Driver {
 					Browser.WebLink.click("Override_Link");
 				}
 
+			
 				// Continue to this website (not recommended).
 
 				Result.fUpdateLog("Browser Opened Successfully");
@@ -1138,8 +1139,8 @@ public class Keyword_CRM extends Driver {
 				if (Row_Count == 1)
 					Browser.WebButton.click("Number_Query");
 				Browser.WebLink.click("Num_Manage");
-				Common.ConditionalWait("Reserve", "WebButton");
-				// CO.waitforload();
+				//Common.ConditionalWait("Reserve", "WebButton");
+				CO.waitforload();
 				// Browser.WebButton.waitTillEnabled("Reserve");
 				// Browser.WebButton.waittillvisible("Reserve");
 				COl_STyp = CO.Select_Cell("Numbers", "Service Type");
@@ -1502,7 +1503,7 @@ public class Keyword_CRM extends Driver {
 					Msg = "Unwanted Popup exists on Submit ,";
 				}
 			}
-
+			//-----------------------Wait for Order to Complete----------------------------------
 			if (Continue.get()) {
 				Result.takescreenshot("Order Submission is Successful");
 				Col = COL_FUL_STATUS;
@@ -1570,9 +1571,9 @@ public class Keyword_CRM extends Driver {
 						Msg = "Waited for 10 mins Order is not completed";
 					}
 					Continue.set(false);
-				}
+				}				
 			}
-
+			//-----------------------Wait for Order to Complete----------------------------------
 			CO.ToWait();
 			if (Continue.get()) {
 				Result.fUpdateLog("Order Status : " + OS_Status);

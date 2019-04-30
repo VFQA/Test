@@ -116,8 +116,28 @@ public class SetCapabilities extends Driver {
 		return Status + "@@" + Test_OutPut + "<br/>";
 	}
 
-	public static void setMCareCapabilities1(String DeviceName) throws IOException, InterruptedException {
-		System.out.println("*** Setting Up MCare Capabilities ***");
+	public String setDAMCapabilities() {
+		String Test_OutPut = "", Status = "";
+		try {
+			if (!(getdata("DeviceName").equals(""))) {
+				DeviceName = getdata("DeviceName");
+				Result.fUpdateLog("Device Name is set to " + DeviceName);
+				setDAMCapabilities1(DeviceName);
+				// setMCareCapabilities_Pcloudy();
+				Status = "PASS";
+			} else {
+				Result.fUpdateLog("Device " + DeviceName + " not found");
+				Status = "FAIL";
+			}
+		} catch (Exception e) {
+			Result.fUpdateLog("Capabilites are not set due to" + e);
+			Status = "FAIL";
+		}
+		return Status + "@@" + Test_OutPut + "<br/>";
+	}
+	
+	public static void setDAMCapabilities1(String DeviceName) throws IOException, InterruptedException {
+		System.out.println("*** Setting Up DAM Capabilities ***");
 		try {
 			String Env = utils.fetchData("Env");
 			FileReader reader = new FileReader("Framework/config/config.properties");
@@ -129,7 +149,39 @@ public class SetCapabilities extends Driver {
 			if (Env.equals("Prod")) {
 				capabilities.setCapability("app", WorkingDir.get() + "/APK/My-Vodafone-Prod.apk");
 			} else {
-				capabilities.setCapability("app", WorkingDir.get() + "/APK/My-Vodafone-Devel-Beta.apk");
+				capabilities.setCapability("app", WorkingDir.get() + "/APK/vfq_dam_prod_v0.2.2.apk");
+			}
+			capabilities.setCapability("platformVersion", p.getProperty(DeviceName + "_Android_Version"));
+			capabilities.setCapability("platformName", "Android");
+			capabilities.setCapability("appPackage", p.getProperty("DAM_" + Env + "_AppPackage"));
+			capabilities.setCapability("appWaitActivity", p.getProperty("DAM_" + Env + "_AppActivity"));
+			capabilities.setCapability("autoGrantPermissions", "true");
+			// capabilities.setCapability("autoAcceptAlerts", "true");
+			activity.set(p.getProperty("DAM_" + Env + "_AppPackage"));
+			dr = new AndroidDriver(new URL("http://127.0.0.1:" + p.getProperty(DeviceName + "_Port") + "/wd/hub"),
+					capabilities);
+			//dr.installApp("D:/Apk/My-Vodafone-Devel-Beta.apk");
+			dr.resetApp();
+			Result.fUpdateLog("*** DAM Capabilities are now Set ***");
+		} catch (Exception e) {
+			Result.fUpdateLog("Capabilites are not set due to" + e);
+		}
+	}
+	
+	public static void setMCareCapabilities1(String DeviceName) throws IOException, InterruptedException {
+		System.out.println("*** Setting Up MCare Capabilities ***");
+		try {
+			String Env = utils.fetchData("Env");
+			FileReader reader = new FileReader("Framework/config/config.properties");
+			Properties p = new Properties();
+			p.load(reader);
+			DesiredCapabilities capabilities = new DesiredCapabilities();
+			capabilities.setCapability("deviceName", p.getProperty(DeviceName + "_Name"));
+			capabilities.setCapability("udid", p.getProperty(DeviceName + "_Id"));
+			if (Env.equals("Prod")) {
+				//capabilities.setCapability("app", WorkingDir.get() + "/APK/My-Vodafone-Prod.apk");
+			} else {
+				//capabilities.setCapability("app", WorkingDir.get() + "/APK/My-Vodafone-Devel-Beta.apk");
 			}
 			capabilities.setCapability("platformVersion", p.getProperty(DeviceName + "_Android_Version"));
 			capabilities.setCapability("platformName", "Android");

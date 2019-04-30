@@ -81,31 +81,35 @@ public class MCare extends Driver {
 			// utils.takeScreenShot();
 			if (utils.fetchData("Env").equals("Test")) {
 				Scroll("OK");
+				
+				allowAppPermission();
+				utils.takeScreenShot();
+				Wait(Xpath.Menu);
+				SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
+				Scroll("Switcher");
+				utils.takeScreenShot();
+				String MSISDN1 = utils.fetchData("MSISDN");
+				MSISDN1 = MSISDN1.substring(3, 11);
+				Wait(Xpath.MsisdnEntry);
+				SetCapabilities.dr.findElement(By.xpath(Xpath.MsisdnEntry)).sendKeys(MSISDN1);
+				Wait(Xpath.Env);
+				((WebElement) SetCapabilities.dr.findElements(By.xpath(Xpath.Env)).get(1)).click();
+
+				// SetCapabilities.dr.findElement(By.xpath(Xpath.Env)).click();
+				SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'UAT')]")).click();
+				Wait(Xpath.Switchbutton);
+				SetCapabilities.dr.findElement(By.xpath(Xpath.Switchbutton)).click();
+				SetCapabilities.dr.findElement(By.xpath(Xpath.Login)).click();
+				utils.takeScreenShot();
+				Wait(Xpath.Menu);
+				SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
+				Scroll("Home");
 			} else {
 				Scroll("OK! Let's Start!");
+				allowAppPermission();
+				utils.takeScreenShot();
 			}
-			allowAppPermission();
-			utils.takeScreenShot();
-			Wait(Xpath.Menu);
-			SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
-			Scroll("Switcher");
-			utils.takeScreenShot();
-			String MSISDN1 = utils.fetchData("MSISDN");
-			MSISDN1 = MSISDN1.substring(3, 11);
-			Wait(Xpath.MsisdnEntry);
-			SetCapabilities.dr.findElement(By.xpath(Xpath.MsisdnEntry)).sendKeys(MSISDN1);
-			Wait(Xpath.Env);
-			((WebElement) SetCapabilities.dr.findElements(By.xpath(Xpath.Env)).get(1)).click();
-
-			// SetCapabilities.dr.findElement(By.xpath(Xpath.Env)).click();
-			SetCapabilities.dr.findElement(By.xpath("//*[contains(@text,'UAT')]")).click();
-			Wait(Xpath.Switchbutton);
-			SetCapabilities.dr.findElement(By.xpath(Xpath.Switchbutton)).click();
-			SetCapabilities.dr.findElement(By.xpath(Xpath.Login)).click();
-			utils.takeScreenShot();
-			Wait(Xpath.Menu);
-			SetCapabilities.dr.findElement(By.xpath(Xpath.Menu)).click();
-			Scroll("Home");
+			
 			// swipeVertical((AppiumDriver) SetCapabilities.dr, 0.1, 0.9, 0.5, 3000);
 			// SetCapabilities.dr.findElement(By.xpath(Xpath.Home)).click();
 			utils.takeScreenShot();
